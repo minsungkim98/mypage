@@ -8,9 +8,11 @@
     <title>경민이와 민성이의 버킷리스트</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;500;600;700&display=swap');
-        *{
+
+        * {
             font-family: 'Hahmlet', serif;
         }
+
         .title {
             color: white;
             background-color: tomato;
@@ -45,14 +47,20 @@
             background-size: cover;
             background-position: center;
         }
+
+        .done {
+            text-decoration: line-through;
+        }
     </style>
-    <link rel="stylesheet" type="text/css" href="https://s3.ap-northeast-2.amazonaws.com/materials.spartacodingclub.kr/bucketList/sparta-bucket2.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://s3.ap-northeast-2.amazonaws.com/materials.spartacodingclub.kr/bucketList/sparta-bucket2.css">
 </head>
 
 <body class="bg center">
+
     <h1 class="title">커플 버킷리스트</h1>
     <P class="msg"> 2023년에 이룰 다짐!</P>
-    <div class="row flex-row wrap">
+    <div class="row flex-row wrap" id="bucketlist">
         <div class="bucket img1 center">광안리 밤바다 구경</div>
         <div class="bucket img2 center">사랑이 간식 만들기</div>
         <div class="bucket img2 center">명지 스타필드</div>
@@ -96,7 +104,36 @@
         <div class="bucket img1 center">제주도 여행</div>
         <div class="bucket img2 center">톤쇼우</div>
     </div>
-
+    <script>
+        const bucketlist = document.querySelectorAll('#bucketlist > div');
+        bucketlist.forEach(bucket => {
+            bucket.addEventListener('click', e => {
+                e.currentTarget.classList.toggle('done');
+                save();        
+            });
+        });
+        
+        function save() {
+            const done = [];
+            for(let i=0; i<bucketlist.length; i++) {
+                if(bucketlist[i].classList.contains('done')) {
+                    done[i] = true;
+                } else {
+                    done[i] = false;
+                }
+            }
+            localStorage.setItem('done', JSON.stringify(done));
+        }
+        
+        const done = JSON.parse(localStorage.getItem("done")); 
+        if(done){
+            for(let i=0; i<bucketlist.length; i++){
+                if(done[i]) {
+                    bucketlist[i].classList.add('done');
+                }
+            }
+        }
+        </script>
 </body>
 
 </html>
